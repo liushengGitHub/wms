@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增货物基础信息')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-goods-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">货物编号：</label>
+                <div class="col-sm-8">
+                    <input name="goodsNo" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">条形码：</label>
+                <div class="col-sm-8">
+                    <input name="pn" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">货物名称：</label>
+                <div class="col-sm-8">
+                    <input name="goodsName" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">货物简介：</label>
+                <div class="col-sm-8">
+                    <input name="goodsBrief" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">货物图片：</label>
+                <div class="col-sm-8">
+                    <input name="goodsImg" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">仓库：</label>
+                <div class="col-sm-8">
+                    <input name="warehouseNo" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/goods"
+        $("#form-goods-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-goods-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

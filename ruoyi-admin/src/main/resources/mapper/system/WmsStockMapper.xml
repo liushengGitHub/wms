@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.WmsStockMapper">
+    
+    <resultMap type="WmsStock" id="WmsStockResult">
+        <result property="id"    column="id"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="warehonseName"    column="warehonse_name"    />
+        <result property="number"    column="number"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectWmsStockVo">
+        select id, goods_name, warehonse_name, number, create_time, update_time from wms_stock
+    </sql>
+
+    <select id="selectWmsStockList" parameterType="WmsStock" resultMap="WmsStockResult">
+        <include refid="selectWmsStockVo"/>
+        <where>  
+            <if test="goodsName != null  and goodsName != ''"> and goods_name like concat('%', #{goodsName}, '%')</if>
+            <if test="warehonseName != null  and warehonseName != ''"> and warehonse_name like concat('%', #{warehonseName}, '%')</if>
+            <if test="number != null "> and number = #{number}</if>
+        </where>
+    </select>
+    
+    <select id="selectWmsStockById" parameterType="Long" resultMap="WmsStockResult">
+        <include refid="selectWmsStockVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertWmsStock" parameterType="WmsStock" useGeneratedKeys="true" keyProperty="id">
+        insert into wms_stock
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsName != null  and goodsName != ''">goods_name,</if>
+            <if test="warehonseName != null  and warehonseName != ''">warehonse_name,</if>
+            <if test="number != null ">number,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsName != null  and goodsName != ''">#{goodsName},</if>
+            <if test="warehonseName != null  and warehonseName != ''">#{warehonseName},</if>
+            <if test="number != null ">#{number},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWmsStock" parameterType="WmsStock">
+        update wms_stock
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="goodsName != null  and goodsName != ''">goods_name = #{goodsName},</if>
+            <if test="warehonseName != null  and warehonseName != ''">warehonse_name = #{warehonseName},</if>
+            <if test="number != null ">number = #{number},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWmsStockById" parameterType="Long">
+        delete from wms_stock where id = #{id}
+    </delete>
+
+    <delete id="deleteWmsStockByIds" parameterType="String">
+        delete from wms_stock where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

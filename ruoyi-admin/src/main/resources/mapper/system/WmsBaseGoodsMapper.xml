@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.WmsBaseGoodsMapper">
+    
+    <resultMap type="WmsBaseGoods" id="WmsBaseGoodsResult">
+        <result property="id"    column="id"    />
+        <result property="goodsNo"    column="goods_no"    />
+        <result property="pn"    column="pn"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="goodsBrief"    column="goods_brief"    />
+        <result property="goodsImg"    column="goods_img"    />
+        <result property="warehouseNo"    column="warehouse_no"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectWmsBaseGoodsVo">
+        select id, goods_no, pn, goods_name, goods_brief, goods_img, warehouse_no, create_time, update_time from wms_base_goods
+    </sql>
+
+    <select id="selectWmsBaseGoodsList" parameterType="WmsBaseGoods" resultMap="WmsBaseGoodsResult">
+        <include refid="selectWmsBaseGoodsVo"/>
+        <where>  
+            <if test="goodsNo != null  and goodsNo != ''"> and goods_no = #{goodsNo}</if>
+            <if test="pn != null  and pn != ''"> and pn = #{pn}</if>
+            <if test="goodsName != null  and goodsName != ''"> and goods_name like concat('%', #{goodsName}, '%')</if>
+            <if test="goodsBrief != null  and goodsBrief != ''"> and goods_brief = #{goodsBrief}</if>
+            <if test="goodsImg != null  and goodsImg != ''"> and goods_img = #{goodsImg}</if>
+            <if test="warehouseNo != null  and warehouseNo != ''"> and warehouse_no = #{warehouseNo}</if>
+        </where>
+    </select>
+    
+    <select id="selectWmsBaseGoodsById" parameterType="Long" resultMap="WmsBaseGoodsResult">
+        <include refid="selectWmsBaseGoodsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertWmsBaseGoods" parameterType="WmsBaseGoods" useGeneratedKeys="true" keyProperty="id">
+        insert into wms_base_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsNo != null  and goodsNo != ''">goods_no,</if>
+            <if test="pn != null  and pn != ''">pn,</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name,</if>
+            <if test="goodsBrief != null  and goodsBrief != ''">goods_brief,</if>
+            <if test="goodsImg != null  and goodsImg != ''">goods_img,</if>
+            <if test="warehouseNo != null  and warehouseNo != ''">warehouse_no,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsNo != null  and goodsNo != ''">#{goodsNo},</if>
+            <if test="pn != null  and pn != ''">#{pn},</if>
+            <if test="goodsName != null  and goodsName != ''">#{goodsName},</if>
+            <if test="goodsBrief != null  and goodsBrief != ''">#{goodsBrief},</if>
+            <if test="goodsImg != null  and goodsImg != ''">#{goodsImg},</if>
+            <if test="warehouseNo != null  and warehouseNo != ''">#{warehouseNo},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWmsBaseGoods" parameterType="WmsBaseGoods">
+        update wms_base_goods
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="goodsNo != null  and goodsNo != ''">goods_no = #{goodsNo},</if>
+            <if test="pn != null  and pn != ''">pn = #{pn},</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name = #{goodsName},</if>
+            <if test="goodsBrief != null  and goodsBrief != ''">goods_brief = #{goodsBrief},</if>
+            <if test="goodsImg != null  and goodsImg != ''">goods_img = #{goodsImg},</if>
+            <if test="warehouseNo != null  and warehouseNo != ''">warehouse_no = #{warehouseNo},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWmsBaseGoodsById" parameterType="Long">
+        delete from wms_base_goods where id = #{id}
+    </delete>
+
+    <delete id="deleteWmsBaseGoodsByIds" parameterType="String">
+        delete from wms_base_goods where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -21,11 +21,7 @@ function register() {
     $.ajax({
         type: "post",
         url: ctx + "register",
-        data: {
-            "loginName": username,
-            "password": password,
-            "validateCode": validateCode
-        },
+        data: $("#registerForm").serialize(),
         success: function(r) {
             if (r.code == 0) {
             	layer.alert("<font color='red'>恭喜你，您的账号 " + username + " 注册成功！</font>", {

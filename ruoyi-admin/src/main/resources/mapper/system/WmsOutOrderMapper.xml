@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.WmsOutOrderMapper">
+    
+    <resultMap type="WmsOutOrder" id="WmsOutOrderResult">
+        <result property="id"    column="id"    />
+        <result property="orderNo"    column="order_no"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="warehonseName"    column="warehonse_name"    />
+        <result property="customerName"    column="customer_name"    />
+        <result property="employeeName"    column="employee_name"    />
+        <result property="number"    column="number"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectWmsOutOrderVo">
+        select id, order_no, goods_name, employee_name,warehonse_name, customer_name, number, create_time, update_time from wms_out_order
+    </sql>
+
+    <select id="selectWmsOutOrderList" parameterType="WmsOutOrder" resultMap="WmsOutOrderResult">
+        <include refid="selectWmsOutOrderVo"/>
+        <where>  
+            <if test="orderNo != null  and orderNo != ''"> and order_no = #{orderNo}</if>
+            <if test="goodsName != null  and goodsName != ''"> and goods_name like concat('%', #{goodsName}, '%')</if>
+            <if test="warehonseName != null  and warehonseName != ''"> and warehonse_name like concat('%', #{warehonseName}, '%')</if>
+            <if test="customerName != null  and customerName != ''"> and customer_name like concat('%', #{customerName}, '%')</if>
+            <if test="employeeName != null  and employeeName != ''"> and employee_name like concat('%', #{employeeName}, '%')</if>
+            <if test="number != null "> and number = #{number}</if>
+        </where>
+    </select>
+    
+    <select id="selectWmsOutOrderById" parameterType="Long" resultMap="WmsOutOrderResult">
+        <include refid="selectWmsOutOrderVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertWmsOutOrder" parameterType="WmsOutOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into wms_out_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderNo != null  and orderNo != ''">order_no,</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name,</if>
+            <if test="warehonseName != null  and warehonseName != ''">warehonse_name,</if>
+            <if test="customerName != null  and customerName != ''">customer_name,</if>
+            <if test="employeeName != null  and employeeName != ''">employee_name,</if>
+            <if test="number != null ">number,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderNo != null  and orderNo != ''">#{orderNo},</if>
+            <if test="goodsName != null  and goodsName != ''">#{goodsName},</if>
+            <if test="warehonseName != null  and warehonseName != ''">#{warehonseName},</if>
+            <if test="customerName != null  and customerName != ''">#{customerName},</if>
+            <if test="employeeName != null  and employeeName != ''">#{employeeName},</if>
+            <if test="number != null ">#{number},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWmsOutOrder" parameterType="WmsOutOrder">
+        update wms_out_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderNo != null  and orderNo != ''">order_no = #{orderNo},</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name = #{goodsName},</if>
+            <if test="warehonseName != null  and warehonseName != ''">warehonse_name = #{warehonseName},</if>
+            <if test="customerName != null  and customerName != ''">customer_name = #{customerName},</if>
+            <if test="employeeName != null  and employeeName != ''">employee_name = #{employeeName},</if>
+            <if test="number != null ">number = #{number},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWmsOutOrderById" parameterType="Long">
+        delete from wms_out_order where id = #{id}
+    </delete>
+
+    <delete id="deleteWmsOutOrderByIds" parameterType="String">
+        delete from wms_out_order where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

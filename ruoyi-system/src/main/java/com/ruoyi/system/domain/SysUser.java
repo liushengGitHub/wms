@@ -81,6 +81,17 @@ public class SysUser extends BaseEntity
     @Excel(name = "最后登陆时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss", type = Type.EXPORT)
     private Date loginDate;
 
+    @Excel(name = "客户主键")
+    private Long operateId;
+
+    public Long getOperateId() {
+        return operateId;
+    }
+
+    public void setOperateId(Long operateId) {
+        this.operateId = operateId;
+    }
+
     /** 部门对象 */
     @Excels({
         @Excel(name = "部门名称", targetAttr = "deptName", type = Type.EXPORT),
